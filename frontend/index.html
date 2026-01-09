@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Emergency Vehicle Navigation</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <link rel="stylesheet" href="style.css"/>
+
+  <!-- 🔐 LOGIN CHECK (ADDED) -->
+  <script>
+    if (!sessionStorage.getItem("driver_mobile")) {
+      window.location.href = "login.html";
+    }
+  </script>
+</head>
+
+<body>
+
+<div class="container">
+  <h2>🚑 Emergency Vehicle Navigation</h2>
+
+  <div class="controls">
+    <div class="input-group">
+      <input id="start" placeholder="🔍 Enter start location" oninput="search('start')" />
+      <div id="start-results" class="results"></div>
+    </div>
+
+    <div class="button-group">
+      <button class="btn-secondary" onclick="useCurrentLocation()">📍 Use Current Location</button>
+    </div>
+
+    <div class="input-group">
+      <input id="end" placeholder="🎯 Enter destination" oninput="search('end')" />
+      <div id="end-results" class="results"></div>
+    </div>
+
+    <div class="button-group">
+      <button onclick="getRoutes()">🚨 Get Emergency Directions</button>
+    </div>
+  </div>
+
+  <div id="map"></div>
+  <div id="info"></div>
+</div>
+
+<!-- 🎥 TUTORIAL ICON (ADDED) -->
+<a href="tutorial.html" style="
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  font-size: 26px;
+  background: white;
+  border-radius: 50%;
+  padding: 10px;
+  text-decoration: none;
+  z-index: 9999;
+">🎥</a>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>

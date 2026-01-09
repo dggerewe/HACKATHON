@@ -1,0 +1,7 @@
+traffic_density,accident_zone,wait_time
+high,yes,140
+high,no,110
+medium,yes,90
+medium,no,60
+low,yes,40
+low,no,20

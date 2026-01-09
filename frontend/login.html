@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ambulance Driver Login</title>
+
+  <!-- 🔰 FIRST-TIME TUTORIAL CHECK (ADDED) -->
+  <script>
+    if (!localStorage.getItem("tutorial_seen")) {
+      const watch = confirm("📘 Do you want to watch the tutorial?");
+      if (watch) {
+        window.location.href = "tutorial.html";
+      } else {
+        localStorage.setItem("tutorial_seen", "yes");
+      }
+    }
+  </script>
+
+  <style>
+    /* 🔽 YOUR ORIGINAL STYLE — UNCHANGED */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    /* (rest of your CSS continues exactly the same) */
+  </style>
+</head>
+
+<body>
+
+  <div class="login-container">
+    <!-- 🔽 YOUR ORIGINAL LOGIN CONTENT — UNCHANGED -->
+    <div class="login-header">
+      <div class="ambulance-icon">🚑</div>
+      <h2>Driver Login</h2>
+      <p class="subtitle">Secure access for ambulance drivers</p>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label">📱 Mobile Number</label>
+      <input id="mobile" type="tel" placeholder="Enter registered mobile number" maxlength="10">
+    </div>
+
+    <button class="btn-primary" onclick="requestOTP()">Request OTP</button>
+
+    <div class="divider"><span>ENTER OTP</span></div>
+
+    <div class="input-group">
+      <label class="input-label">🔐 One-Time Password</label>
+      <input id="otp" type="text" placeholder="Enter 6-digit OTP" maxlength="6">
+    </div>
+
+    <button class="btn-secondary" onclick="verifyOTP()">Verify & Login</button>
+
+    <div class="info-box">
+      <div class="info-icon">ℹ️</div>
+      <div class="info-text">
+        You will receive an OTP on your registered mobile number.
+      </div>
+    </div>
+  </div>
+
+  <!-- 🎥 TUTORIAL ICON (ADDED) -->
+  <a href="tutorial.html" style="
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 28px;
+    background: white;
+    border-radius: 50%;
+    padding: 10px;
+    text-decoration: none;
+    z-index: 9999;
+  ">🎥</a>
+
+  <!-- 🔽 YOUR ORIGINAL SCRIPT — UNCHANGED -->
+  <script>
+    function requestOTP() {
+      const mobile = document.getElementById('mobile').value;
+      if (!mobile || mobile.length < 10) {
+        alert('❌ Please enter a valid 10-digit mobile number');
+        return;
+      }
+      fetch("http://127.0.0.1:5000/request-otp", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ mobile })
+      }).then(r=>r.json()).then(d=>alert(d.message || d.error));
+    }
+
+    function verifyOTP() {
+      const mobile = document.getElementById('mobile').value;
+      const otp = document.getElementById('otp').value;
+      fetch("http://127.0.0.1:5000/verify-otp", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ mobile, otp })
+      }).then(r=>r.json()).then(d=>{
+        if(d.success){
+          sessionStorage.setItem("driver_mobile", mobile);
+          window.location.href="index.html";
+        } else alert(d.error);
+      });
+    }
+  </script>
+
+</body>
+</html>
