@@ -1,62 +1,36 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 <head>
-  <title>Emergency Vehicle Navigation</title>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
-  <link rel="stylesheet" href="style.css"/>
-
-  <!-- 🔐 LOGIN CHECK (ADDED) -->
-  <script>
-    if (!sessionStorage.getItem("driver_mobile")) {
-      window.location.href = "login.html";
-    }
-  </script>
+  <meta charset="utf-8" />
+  <title>Control Room — MVP</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    body { margin:0; font-family: Arial, sans-serif; }
+    #map { position: absolute; top:0; bottom:0; left:300px; right:0; }
+    #sidebar { position: absolute; left:0; top:0; bottom:0; width:300px; overflow:auto; padding:10px; box-shadow: 2px 0 6px rgba(0,0,0,0.1); background:#fff; }
+    .list { margin:8px 0; }
+    .item { padding:6px; border-bottom:1px solid #eee; }
+    button { margin-top:6px; }
+  </style>
 </head>
-
 <body>
-
-<div class="container">
-  <h2>🚑 Emergency Vehicle Navigation</h2>
-
-  <div class="controls">
-    <div class="input-group">
-      <input id="start" placeholder="🔍 Enter start location" oninput="search('start')" />
-      <div id="start-results" class="results"></div>
+  <div id="sidebar">
+    <h3>Control Room</h3>
+    <div>
+      <strong>Ambulances</strong>
+      <div id="ambulanceList" class="list"></div>
     </div>
-
-    <div class="button-group">
-      <button class="btn-secondary" onclick="useCurrentLocation()">📍 Use Current Location</button>
+    <div>
+      <strong>Emergencies</strong>
+      <div id="emergencyList" class="list"></div>
     </div>
-
-    <div class="input-group">
-      <input id="end" placeholder="🎯 Enter destination" oninput="search('end')" />
-      <div id="end-results" class="results"></div>
-    </div>
-
-    <div class="button-group">
-      <button onclick="getRoutes()">🚨 Get Emergency Directions</button>
+    <div style="margin-top:10px">
+      <small>WebSocket: <span id="wsStatus">disconnected</span></small>
     </div>
   </div>
-
   <div id="map"></div>
-  <div id="info"></div>
-</div>
-
-<!-- 🎥 TUTORIAL ICON (ADDED) -->
-<a href="tutorial.html" style="
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  font-size: 26px;
-  background: white;
-  border-radius: 50%;
-  padding: 10px;
-  text-decoration: none;
-  z-index: 9999;
-">🎥</a>
-
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="script.js"></script>
-
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="static/app.js"></script>
 </body>
 </html>
